@@ -1,164 +1,175 @@
-# SpringBoot 项目初始模板
+# 企业级周边展示管理系统
 
-> 作者：[程序员鱼皮](https://github.com/liyupi)
-> 仅分享于 [编程导航知识星球](https://yupi.icu)
+为了更好地展示我们公司的周边奖品，我们上线了自己的周边系统！以后给大家发放奖励就更方便啦，而且喜欢我们周边的鱼友们也可以自行选购~
 
-基于 Java SpringBoot 的项目初始模板，整合了常用框架和主流业务的示例代码。
+鱼鸢周边地址：[http://prize.yuyuanweb.com](http://prize.yuyuanweb.com/)
 
-只需 1 分钟即可完成内容网站的后端！！！大家还可以在此基础上快速开发自己的项目。
-
-[toc]
-
-## 模板特点
-
-### 主流框架 & 特性
-
-- Spring Boot 2.7.x（贼新）
-- Spring MVC
-- MyBatis + MyBatis Plus 数据访问（开启分页）
-- Spring Boot 调试工具和项目处理器
-- Spring AOP 切面编程
-- Spring Scheduler 定时任务
-- Spring 事务注解
-
-### 数据存储
-
-- MySQL 数据库
-- Redis 内存数据库
-- Elasticsearch 搜索引擎
-- 腾讯云 COS 对象存储
-
-### 工具类
-
-- Easy Excel 表格处理
-- Hutool 工具库
-- Apache Commons Lang3 工具类
-- Lombok 注解
-
-### 业务特性
-
-- Spring Session Redis 分布式登录
-- 全局请求响应拦截器（记录日志）
-- 全局异常处理器
-- 自定义错误码
-- 封装通用响应类
-- Swagger + Knife4j 接口文档
-- 自定义权限注解 + 全局校验
-- 全局跨域处理
-- 长整数丢失精度解决
-- 多环境配置
+![](https://pic.yupi.icu/1/1711697533221-9e1e7453-8c77-4f14-b6e0-30837e3874f2.png)
 
 
-## 业务功能
 
-- 提供示例 SQL（用户、帖子、帖子点赞、帖子收藏表）
-- 用户登录、注册、注销、更新、检索、权限管理
-- 帖子创建、删除、编辑、更新、数据库检索、ES 灵活检索
-- 帖子点赞、取消点赞
-- 帖子收藏、取消收藏、检索已收藏帖子
-- 帖子全量同步 ES、增量同步 ES 定时任务
-- 支持微信开放平台登录
-- 支持微信公众号订阅、收发消息、设置菜单
-- 支持分业务的文件上传
+相信也有很多同学想开发一个类似的奖品展示、奖品管理类的项目，所以我们上线项目的同时，特地编写了一套《周边展示和管理系统》保姆级教程（作者编程导航星球成员 [@4838-小火龙](https://github.com/szdaiyifei)），感兴趣的同学可以学起来，也可以当做毕业设计~
 
-### 单元测试
+本项目代码开源：
 
-- JUnit5 单元测试
-- 示例单元测试类
+- 前端：[https://github.com/yuyuanweb/peripheral-frontend](https://github.com/yuyuanweb/peripheral-frontend/)
+- 后端：https://github.com/yuyuanweb/peripheral_backend
 
-### 架构设计
-
-- 合理分层
+教程仅 [编程导航知识星球](https://yuyuanweb.feishu.cn/wiki/VC1qwmX9diCBK3kidyec74vFnde) 用户可见，欢迎加入项目系列学习：[加入编程导航](https://yuyuanweb.feishu.cn/wiki/SDtMwjR1DituVpkz5MLc3fZLnzb)。 
 
 
-## 快速上手
 
-> 所有需要修改的地方鱼皮都标记了 `todo`，便于大家找到修改的位置~
+## 项目背景
 
-### MySQL 数据库
+我们企业中有很多各式各样的周边，比如书籍、礼盒、定制公仔等，每个周边的可发数量和库存数量也不同。
 
-1）修改 `application.yml` 的数据库配置为你自己的：
+以前，我们使用在线表格对周边进行管理，人工维护；但随着公司的项目组越来越多，大家可能存在申请周边的需求，这时使用在线表格管理就不方便了。
 
-```yml
-spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/my_db
-    username: root
-    password: 123456
-```
+![](https://pic.yupi.icu/1/1711698102485-d95d5de8-cf5d-470a-be3f-cc081c5594a0.png)
 
-2）执行 `sql/create_table.sql` 中的数据库语句，自动创建库表
+此外，我们之前使用飞书文档来对外展示周边信息，也需要人工维护文档。
 
-3）启动项目，访问 `http://localhost:8101/api/doc.html` 即可打开接口文档，不需要写前端就能在线调试接口了~
+![](https://pic.yupi.icu/1/1711698127743-5115ea06-36de-4f1b-b56f-58ff8161fe47.png)
 
-![](doc/swagger.png)
+同时维护对内表格和对外文档，就导致了大量信息的重复填写，增加了人工维护的成本和压力。
 
-### Redis 分布式登录
+有没有什么办法提高管理效率、保证周边信息的一致性呢？
 
-1）修改 `application.yml` 的 Redis 配置为你自己的：
-
-```yml
-spring:
-  redis:
-    database: 1
-    host: localhost
-    port: 6379
-    timeout: 5000
-    password: 123456
-```
-
-2）修改 `application.yml` 中的 session 存储方式：
-
-```yml
-spring:
-  session:
-    store-type: redis
-```
-
-3）移除 `MainApplication` 类开头 `@SpringBootApplication` 注解内的 exclude 参数：
-
-修改前：
-
-```java
-@SpringBootApplication(exclude = {RedisAutoConfiguration.class})
-```
-
-修改后：
+我们的方案是开发一套系统，能够同时满足周边展示（对外）和周边管理（对内）的需求。于是，周边系统应需而生。
 
 
-```java
-@SpringBootApplication
-```
 
-### Elasticsearch 搜索引擎
+## 项目简介
 
-1）修改 `application.yml` 的 Elasticsearch 配置为你自己的：
+基于 Spring Boot + React + Ant Design 组件库 + MySQL + Redis 的企业级周边系统，目的是更直观清晰地展示公司周边、并且提高公司内部的周边申请和管理效率。
 
-```yml
-spring:
-  elasticsearch:
-    uris: http://localhost:9200
-    username: root
-    password: 123456
-```
+- 对外服务： 为用户提供周边商品的浏览和购买渠道，提升用户体验。
+- 对内管理： 整合公司内部商品表单，为管理员提供便捷的周边商品管理平台。
 
-2）复制 `sql/post_es_mapping.json` 文件中的内容，通过调用 Elasticsearch 的接口或者 Kibana Dev Tools 来创建索引（相当于数据库建表）
 
-```
-PUT post_v1
-{
- 参数见 sql/post_es_mapping.json 文件
-}
-```
 
-这步不会操作的话需要补充下 Elasticsearch 的知识，或者自行百度一下~
+周边展示页面：
 
-3）开启同步任务，将数据库的帖子同步到 Elasticsearch
+![](https://pic.yupi.icu/1/1710746596090-eaee896f-f076-40cf-badf-caa80e1a7932.png)
 
-找到 job 目录下的 `FullSyncPostToEs` 和 `IncSyncPostToEs` 文件，取消掉 `@Component` 注解的注释，再次执行程序即可触发同步：
 
-```java
-// todo 取消注释开启任务
-//@Component
-```
+
+用户管理页面：
+
+![](https://pic.yupi.icu/1/1710746707837-d59848e9-af5b-400e-bf00-bb4d677011ea.png)
+
+申请管理页面：
+
+![](https://pic.yupi.icu/1/1710746740983-b5050fbd-6ff1-4f06-8ede-f56bdd383bff.png)
+
+
+
+查看申请记录页面：
+
+![](https://pic.yupi.icu/1/1710746779031-26b6aac5-dc9f-44f5-96ab-e61e99d703f6.png)
+
+
+
+## 项目特点
+
+- 主流技术栈、简单易上手，适合刚学完一门前端或后端框架的同学练手，提升实战经验
+- 项目界面美观整洁
+
+
+
+## 项目收获
+
+1. 学习企业级项目从开发到上线的完整流程，能独立开发上线系统
+2. 学习常见后端数据库表设计方式，以及管理员在前端快速可视化数据的技术
+3. 掌握万用前端 + 后端模板的使用以及快速二次开发能力
+4. 学习企业中较为复杂的权限管理，实现定制化脱敏信息
+5. 学习常见项目优化技术，如分布式锁保证数据强一致性、降级策略等
+
+
+
+## 本项目适合同学
+
+本项目同时适合前端和后端，并且项目难度并不大，非常适合刚学完一门后端框架技术想实战的同学。
+
+如果你是后端，已经学习过 JavaWeb 开发掌握一门框架技术，希望学习到快速对框架的使用开发企业级项目、提升自己的编程和系统设计能力，那么非常欢迎来学习！ 
+
+如果你是前端，最好已经学习过 Vue 或 React 框架，可以通过本项目学习到快速开发前端项目的技巧，并且通过保姆级的入门实战学会一些后端技术。
+
+
+
+## 技术选型
+
+#### 后端 
+
+- Spring Boot 2.7
+- MySQL
+- Mybatis-plus
+- Redis
+- Swagger 接口文档
+- Hutool 、Apache Commons 等工具库
+- 对象存储
+- 使用后端模板代码快速开发
+
+
+
+#### 前端 
+
+- React + Ant Design Pro
+- 前端工程化：ESLint + Prettier + TypeScript
+- 使用 antd 前端模板代码快速开发
+
+
+
+## 已有功能模块
+
+大家可以看看有没有想学习开发的功能。
+
+
+
+#### 1、用户模块
+
+- 注册登录功能
+- 身份鉴权（区分管理员、内部员工、普通用户）
+
+
+
+#### 2、周边模块（管理与展示）
+
+- 周边信息管理功能：管理员可以进行周边信息的增加、删除、修改和查询操作。 其中周边信息包括分类、名称、库存、图片、价格、补货链接、购买跳转链接、获取方式等属性
+- 提供管理前台页面供管理员使用，以便更方便地进行周边库存管理
+- 周边信息展示，需要有**权限控制**功能：允许设置某条周边信息是否公开浏览、允许设置是否展示库存数量等敏感信息
+
+
+
+#### 3、周边模块（内部员工申请）
+
+- 在库存展示页面：做一个申请按钮仅内部员工可见，可以申请周边商品。
+- 内部员工可以查看自己的申请记录
+- 提供管理员审批功能：管理员可以查看并审批员工的周边申请。
+
+
+
+#### 4、权限控制模块
+
+- 管理员：可以查看所有周边信息以及管理周边，可以申请周边并对内部员工的申请进行审批
+- 内部员工：可以看到脱敏后展示的周边信息，可以申请周边
+- 外部用户：可以看到脱敏后展示的周边信息
+
+
+
+可以通过一个字段控制某些字段是否展示或者该信息是否公开（**做好降级策略**：采用单条信息做权限控制的设计，如果有信息没有做单独的控制，则执行全局的权限控制）
+
+
+
+## 项目教程
+
+教程仅 [编程导航知识星球](https://yuyuanweb.feishu.cn/wiki/VC1qwmX9diCBK3kidyec74vFnde) 用户可见，欢迎加入项目系列学习：[加入编程导航](https://yuyuanweb.feishu.cn/wiki/SDtMwjR1DituVpkz5MLc3fZLnzb)。 
+
+
+
+项目教程为文字教程，一共分为四章：
+
+1. 项目诞生 ：[周边系统教程（1-项目总览）](https://bcdh.yuque.com/staff-wpxfif/resource/xy08v2wksmr8mtwb)
+2. 项目初始化：[周边系统教程（2-项目初始化）](https://bcdh.yuque.com/staff-wpxfif/resource/rgv5z1kysy86n93t)
+3. 核心业务开发：[周边系统教程（3-业务开发）](https://bcdh.yuque.com/staff-wpxfif/resource/uz57qmhx4ou1rdvv)
+4. 管理业务开发：[周边系统教程（4-管理页面开发）](https://bcdh.yuque.com/staff-wpxfif/resource/hr85a6fz1p1z1adf)
