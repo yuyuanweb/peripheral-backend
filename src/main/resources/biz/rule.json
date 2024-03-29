@@ -1,0 +1,5 @@
+{
+    "publicView":true,
+    "sensitiveFields":["price"]
+}
+

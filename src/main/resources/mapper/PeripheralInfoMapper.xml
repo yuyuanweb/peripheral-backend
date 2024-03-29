@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yupi.springbootinit.mapper.PeripheralInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.yupi.springbootinit.model.entity.PeripheralInfo">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="cover" column="cover" jdbcType="VARCHAR"/>
+            <result property="price" column="price" jdbcType="INTEGER"/>
+            <result property="stock" column="stock" jdbcType="INTEGER"/>
+            <result property="type" column="type" jdbcType="VARCHAR"/>
+            <result property="replenishLink" column="replenishLink" jdbcType="VARCHAR"/>
+            <result property="purchaseLink" column="purchaseLink" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+            <result property="permission" column="permission" jdbcType="VARCHAR"/>
+            <result property="userId" column="userId" jdbcType="BIGINT"/>
+            <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+            <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,cover,
+        price,stock,type,
+        replenishLink,purchaseLink,status,
+        permission,userId,createTime,
+        updateTime,isDelete
+    </sql>
+</mapper>

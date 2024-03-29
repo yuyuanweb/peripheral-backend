@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yupi.springbootinit.mapper.ApplyRecordsMapper">
+
+    <resultMap id="BaseResultMap" type="com.yupi.springbootinit.model.entity.ApplyRecords">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="peripheralId" column="peripheralId" jdbcType="BIGINT"/>
+        <result property="peripheralName" column="peripheralName" jdbcType="VARCHAR"/>
+        <result property="applicantId" column="applicantId" jdbcType="BIGINT"/>
+        <result property="adminId" column="adminId" jdbcType="BIGINT"/>
+        <result property="applicantUserName" column="applicantUserName" jdbcType="VARCHAR"/>
+        <result property="applicationTime" column="applicationTime" jdbcType="TIMESTAMP"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="applyNums" column="applyNums" jdbcType="INTEGER"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="reason" column="reason" jdbcType="VARCHAR"/>
+        <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>
+        <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        ,peripheralId,peripheralName,
+        applicantId,adminId,applicantUserName,
+        applicationTime,status,content,applyNums
+        reason,isDelete,createTime,
+        updateTime
+    </sql>
+</mapper>
